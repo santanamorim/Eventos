@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Routes from './src/routes';
+
+import EventsPage from './src/pages/EventsPage';
+import AboutPage from './src/pages/AboutPage';
+import EventInsertPage from './src/pages/EventInsertPage';
+import PhotosPage from './src/pages/PhotosPage';
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
+
+  const screensProps = [
+    { name: Routes.Home, component: AboutPage, options: { title: 'Elite Eventos' }},
+    { name: Routes.EventsPage, component: EventsPage, options: { title: 'Eventos' }},
+    { name: Routes.EventInsertPage, component: EventInsertPage, options: { title: 'Novo Evento' }},
+    { name: Routes.PhotosPage, component: PhotosPage, options: { title: 'Galeria' }},
+  ];
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator>
+        {screensProps.map(
+          (props, index) =>
+            <Drawer.Screen key={"drawer_screen_" + index} {...props} />
+        )
+        }
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    width: '100%',
     justifyContent: 'center',
+    paddingTop: 20,
   },
 });
